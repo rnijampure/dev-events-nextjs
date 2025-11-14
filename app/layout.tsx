@@ -9,6 +9,8 @@ import {
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 
+import { PostHogProvider } from "./providers";
+
 const schibstedGrotesk = Schibsted_Grotesk({
   variable: "--font-schibsted-grotesk",
   subsets: ["latin"],
