@@ -1,4 +1,5 @@
 export interface EventCardProps {
+  id: number;
   image: string;
   title: string;
   slug?: string;
@@ -7,6 +8,14 @@ export interface EventCardProps {
   time?: string;
   theme?: string;
   description?: string;
+  mode?: string;
+  aganda?: string;
+  organizers?: string;
+  sponsors?: string;
+  speakers?: string[];
+  tags?: string[];
+  audience?: string;
+  prerequisites?: string[];
 }
 
 export const events = [
