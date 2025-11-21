@@ -1,5 +1,5 @@
 export interface EventCardProps {
-  id: number;
+  //id: number;
   image: string;
   title: string;
   slug?: string;
@@ -108,3 +108,7 @@ export const events = [
       "Join global tech leaders, innovators, and startups for the Tech Innovations Summit 2025. This three-day event focuses on emerging technologies such as AI, robotics, quantum computing, and 5G. Gain valuable insights, attend expert panels, and explore how innovation is driving progress in every industry.",
   },
 ];
+
+export type EventsArray = {
+  events: EventCardProps[];
+};

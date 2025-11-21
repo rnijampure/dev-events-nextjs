@@ -3,8 +3,15 @@ import RoundedButton from "@/components/RoundedButton";
 import React from "react";
 import Image from "next/image";
 import { events } from "../app/common/constants";
-const Home = () => {
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const Home = async () => {
+  const response = await fetch(`${BASE_URL}/api/events`, {
+    cache: "no-store",
+  });
+  const { events } = await response.json();
+
   console.log("Rendering Home Page");
+
   return (
     <>
       <h1 className="text-2xl text-center">
@@ -20,8 +27,8 @@ const Home = () => {
         <h1 className="heading text-center pb-4">Featured Events</h1>
 
         <ul className="events list-none">
-          {events.map((event) => (
-            <li className="list-none">
+          {events.map((event: any) => (
+            <li className="list-none" key={event.title}>
               {" "}
               <EventCard key={event.title} {...event} />
             </li>

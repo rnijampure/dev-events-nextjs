@@ -45,8 +45,12 @@ export default function RootLayout({
         >
           <DarkVeil />
         </div>
-        <NavBar />
-        {children}
+
+        <PostHogProvider>
+          <NavBar />
+
+          {children}
+        </PostHogProvider>
       </body>
     </html>
   );

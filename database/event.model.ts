@@ -1,10 +1,5 @@
-import {
-  Schema,
-  model,
-  models,
-  Model,
-  HydratedDocument,
-} from "mongoose";
+// my-app/database/event.model.ts
+import { Schema, model, models, Model, HydratedDocument } from "mongoose";
 
 /**
  * Core shape of an Event document.
@@ -51,7 +46,9 @@ function normalizeTime(input: string): string {
 
   const match = value.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
   if (!match) {
-    throw new Error("Invalid time format; expected HH:mm or HH:mm:ss (24-hour)");
+    throw new Error(
+      "Invalid time format; expected HH:mm or HH:mm:ss (24-hour)"
+    );
   }
 
   const hours = Number(match[1]);
@@ -67,7 +64,7 @@ function normalizeTime(input: string): string {
   return `${normalizedHours}:${normalizedMinutes}`;
 }
 
-const eventSchema = new Schema<Event>(
+const eventSchema = new Schema<EventDocument>(
   {
     title: { type: String, required: true, trim: true },
     slug: {
@@ -116,9 +113,9 @@ const eventSchema = new Schema<Event>(
 
 /**
  * Ensure string fields are present and non-empty, generate a slug when needed,
- * and normalize date/time into consistent formats before saving.
+ * and normalize date/time into consistent formats before validation runs.
  */
-eventSchema.pre("save", function (next) {
+eventSchema.pre("validate", function (next) {
   const doc = this as EventDocument;
 
   const requiredStringFields: (keyof Event)[] = [
@@ -138,16 +135,22 @@ eventSchema.pre("save", function (next) {
   for (const field of requiredStringFields) {
     const value = doc[field];
     if (typeof value !== "string" || value.trim().length === 0) {
-      return next(new Error(`Field "${String(field)}" is required and cannot be empty.`));
+      return next(
+        new Error(`Field "${String(field)}" is required and cannot be empty.`)
+      );
     }
   }
 
   if (!Array.isArray(doc.agenda) || doc.agenda.length === 0) {
-    return next(new Error("Agenda is required and must contain at least one item."));
+    return next(
+      new Error("Agenda is required and must contain at least one item.")
+    );
   }
 
   if (!Array.isArray(doc.tags) || doc.tags.length === 0) {
-    return next(new Error("Tags are required and must contain at least one item."));
+    return next(
+      new Error("Tags are required and must contain at least one item.")
+    );
   }
 
   // Generate or update slug only when the title changes.
@@ -158,7 +161,9 @@ eventSchema.pre("save", function (next) {
   // Normalize date to ISO string (UTC) and ensure it is valid.
   const parsedDate = new Date(doc.date);
   if (Number.isNaN(parsedDate.getTime())) {
-    return next(new Error("Invalid date; unable to parse into a valid ISO date."));
+    return next(
+      new Error("Invalid date; unable to parse into a valid ISO date.")
+    );
   }
   doc.date = parsedDate.toISOString();
 
@@ -172,5 +177,10 @@ eventSchema.pre("save", function (next) {
 });
 
 // Reuse existing model in development to prevent overwrite errors.
-export const Event: Model<Event> =
-  (models.Event as Model<Event> | undefined) || model<Event>("Event", eventSchema);
+/**
+ * FIXED:
+ * MUST be Model<EventDocument>, NOT Model<Event>.
+ */
+export const Event: Model<EventDocument> =
+  (models.Event as Model<EventDocument>) ||
+  model<EventDocument>("Event", eventSchema);
