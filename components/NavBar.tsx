@@ -6,7 +6,7 @@ const NavBar = () => {
     <header>
       <nav>
         <Link href="/">
-          <Image src="/icons/Logo.png" alt="Logo" width={30} height={30} />
+          <Image src="/icons/logo.png" alt="Logo" width={30} height={30} />
           <p>DevLinks</p>
         </Link>
         {/* {" "}
