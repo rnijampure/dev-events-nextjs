@@ -1,5 +1,5 @@
 export interface EventCardProps {
-  //id: number;
+  _id: number;
   image: string;
   title: string;
   slug?: string;

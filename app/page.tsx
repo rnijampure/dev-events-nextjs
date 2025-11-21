@@ -30,7 +30,7 @@ const Home = async () => {
           {events.map((event: any) => (
             <li className="list-none" key={event.title}>
               {" "}
-              <EventCard key={event.title} {...event} />
+              <EventCard key={event._id} {...event} />
             </li>
           ))}
           {/*      {[1, 2, 3, 4, 5].map((event: any) => (
