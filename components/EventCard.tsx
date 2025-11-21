@@ -12,6 +12,7 @@ const EventCard = ({
   description,
   time,
   slug,
+  id,
 }: EventCardProps) => {
   return (
     <>

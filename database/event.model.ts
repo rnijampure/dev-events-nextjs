@@ -5,6 +5,7 @@ import { Schema, model, models, Model, HydratedDocument } from "mongoose";
  * Core shape of an Event document.
  */
 export interface Event {
+  _id?: string;
   title: string;
   slug: string;
   description: string;
