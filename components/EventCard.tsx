@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { EventCardProps } from "../app/common/constants";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 const EventCard = ({
   image,
   title,
@@ -10,12 +11,13 @@ const EventCard = ({
   date,
   description,
   time,
+  slug,
 }: EventCardProps) => {
   return (
     <>
       <div className="event-card">
         <p className="title text-2xl pb-2">{title}</p>
-        <Link href={`/events/${title}`} id="event-card">
+        <Link href={`${BASE_URL}/events/${slug}`} id="event-card">
           <Image
             src={image}
             alt={title}
